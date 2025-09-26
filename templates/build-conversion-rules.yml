@@ -4,6 +4,7 @@ spec:
       description: "Каталог с правилами конвертации для сборки"
     output_dir:
       description: "Каталог с результатом сборки"
+      default: "build/"
     gitrules_image:
       default: "sleemp/gitrules:1.1.2"
       description: "Образ gitrules"
