@@ -8,11 +8,14 @@ spec:
     asset_dir:
       description: "Каталог для архивации в релиз. Должен быть равен output_dir из build-conversion-rules"
       default: "build/rules"
+    gitlab_protocol:
+      description: "Протокол для подключения к GitLab API (http или https)"
+      default: "https"
 ---
 release-conversion-rules:
   stage: $[[ inputs.stage ]]
   variables:
-    GITLAB_HOST: $CI_SERVER_HOST
+    GITLAB_HOST: "$[[ inputs.gitlab_protocol ]]://$CI_SERVER_HOST"
   rules:
     - if: '$CI_COMMIT_TAG'
   image: registry.gitlab.com/gitlab-org/cli:latest
