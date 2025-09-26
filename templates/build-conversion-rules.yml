@@ -1,0 +1,28 @@
+spec:
+  inputs:
+    input_dir:
+      description: "Каталог с правилами конвертации для сборки"
+    output_dir:
+      description: "Каталог с результатом сборки"
+    gitrules_image:
+      default: "sleemp/gitrules:1.1.2"
+      description: "Образ gitrules"
+    stage:
+      default: "build"
+---
+build-conversion-rules:
+  stage: $[[ inputs.stage ]]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  image: 
+    name: $[[ inputs.gitrules_image ]]
+    entrypoint: [""]
+  script:
+    - gitrules assembly $[[ inputs.input_dir ]] $[[ inputs.output_dir ]]
+  artifacts:
+    paths:
+      - $[[ inputs.output_dir ]]
+    expire_in: 1 week
+    when: on_success
+  
