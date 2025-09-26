@@ -1,0 +1,34 @@
+spec:
+  inputs:
+    input_dir:
+      description: "Каталог с правилами конвертации для сборки"
+    output_dir:
+      description: "Каталог с результатом сборки"
+      default: "build/"
+    gitrules_image:
+      default: "sleemp/gitrules:1.1.2"
+      description: "Образ gitrules"
+    stage:
+      default: "release"
+---
+release-conversion-rules:
+  stage: $[[ inputs.stage ]]
+  rules:
+    - if: '$CI_COMMIT_TAG'
+  image: 
+    name: $[[ inputs.gitrules_image ]]
+    entrypoint: [""]
+  script:
+    - gitrules assembly $[[ inputs.input_dir ]] $[[ inputs.output_dir ]]
+    - mv "$[[ inputs.output_dir ]]" "rules-$CI_COMMIT_TAG"
+  artifacts:
+    name: "rules-$CI_COMMIT_TAG"
+    paths:
+      - "rules-$CI_COMMIT_TAG/"
+    expire_in: never
+    when: on_success
+  release:
+    name: "Release $CI_COMMIT_TAG"
+    description: "Правила конвертации для версии $CI_COMMIT_TAG."
+    tag_name: "$CI_COMMIT_TAG"
+  
