@@ -30,17 +30,31 @@ build-conversion-rules:
         exit 1
       fi
 
-      if [ -n "$CI_COMMIT_TAG" ]; then
-        ASSET_NAME="rules-$CI_COMMIT_TAG.tar.gz"
-      else
-        ASSET_NAME="rules-$CI_COMMIT_SHORT_SHA.tar.gz"
+      # Проверяем, что в каталоге сборки ровно один файл
+      FILE_COUNT=$(find "$[[ inputs.output_dir ]]" -type f -printf '.' | wc -c)
+      if [ "$FILE_COUNT" -ne 1 ]; then
+        echo "ОШИБКА: В каталоге '$[[ inputs.output_dir ]]' ожидался один файл, но найдено: $FILE_COUNT."
+        ls -lR "$[[ inputs.output_dir ]]"
+        exit 1
       fi
-      tar -czf "$ASSET_NAME" -C "$[[ inputs.output_dir ]]" .
+
+      # Находим имя исходного файла
+      SOURCE_FILE=$(find "$[[ inputs.output_dir ]]" -type f)
+
+      if [ -n "$CI_COMMIT_TAG" ]; then
+        ASSET_NAME="rules-$CI_COMMIT_TAG.xml"
+      else
+        ASSET_NAME="rules-$CI_COMMIT_SHORT_SHA.xml"
+      fi
+      
+      # Переименовываем и перемещаем файл в корень проекта
+      mv "$SOURCE_FILE" "$ASSET_NAME"
+
       echo "BUILD_JOB_ID=$CI_JOB_ID" >> build.env
       echo "ASSET_NAME=$ASSET_NAME" >> build.env
   artifacts:
     paths:
-      - "rules-*.tar.gz"
+      - "rules-*.xml"
     expire_in: 1 week
     when: on_success
     reports:
