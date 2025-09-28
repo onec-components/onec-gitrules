@@ -28,7 +28,7 @@ build-conversion-rules:
     - echo "ASSET_NAME=$ASSET_NAME" >> build.env
   artifacts:
     paths:
-      - $ASSET_NAME
+      - $[[ $ASSET_NAME ]]
     expire_in: 1 week
     when: on_success
     reports:
