@@ -38,8 +38,10 @@ build-conversion-rules:
       tar -czf "$ASSET_NAME" -C "$[[ inputs.output_dir ]]" .
       echo "BUILD_JOB_ID=$CI_JOB_ID" >> build.env
       echo "ASSET_NAME=$ASSET_NAME" >> build.env
-      echo "--- Debugging file list ---"
-      ls -R
+      echo "--- Debugging artifact location ---"
+      echo "Current directory: $(pwd)"
+      echo "Searching for artifact named: $ASSET_NAME"
+      find . -name "$ASSET_NAME"
   artifacts:
     paths:
       - $ASSET_NAME
