@@ -5,9 +5,6 @@ spec:
     build_job_name:
       description: "Имя джобы сборки артефакта"
       default: "build-conversion-rules"
-    asset_dir:
-      description: "Каталог для архивации в релиз. Должен быть равен output_dir из build-conversion-rules"
-      default: "build/rules"
 ---
 release-conversion-rules:
   stage: $[[ inputs.stage ]]
