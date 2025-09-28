@@ -8,9 +8,6 @@ spec:
     asset_dir:
       description: "Каталог для архивации в релиз. Должен быть равен output_dir из build-conversion-rules"
       default: "build/rules"
-    skip_tls_verify:
-      description: "Отключить проверку TLS (для self-hosted GitLab)"
-      default: false
 ---
 release-conversion-rules:
   stage: $[[ inputs.stage ]]
@@ -22,8 +19,7 @@ release-conversion-rules:
   script:
     - ASSET_NAME="rules-$CI_COMMIT_TAG.tar.gz"
     - tar -czf "$ASSET_NAME" "$[[ inputs.asset_dir ]]"
-    - 'if [[ "$[[ inputs.skip_tls_verify ]]" == "true" ]]; then glab config set skip_tls_verify true --host "$GITLAB_HOST"; fi'
-    - echo "$GITLAB_TOKEN" | glab auth login --hostname "$GITLAB_HOST" --stdin
+    - echo "$CI_JOB_TOKEN" | glab auth login --hostname "$GITLAB_HOST" --stdin
     - 'glab release create "$CI_COMMIT_TAG" "$ASSET_NAME" --notes "Правила конвертации для версии $CI_COMMIT_TAG."'
   needs:
     - job: $[[ inputs.build_job_name ]]
