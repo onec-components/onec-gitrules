@@ -13,8 +13,6 @@ release-conversion-rules:
   stage: $[[ inputs.stage ]]
   image: registry.gitlab.com/gitlab-org/cli:latest
   script:
-    - ASSET_NAME="rules-$CI_COMMIT_TAG.tar.gz"
-    - tar -czf "$ASSET_NAME" "$[[ inputs.asset_dir ]]"
     - echo "Creating release $CI_COMMIT_TAG with asset $ASSET_NAME"
   rules:
     - if: '$CI_COMMIT_TAG'
@@ -26,7 +24,8 @@ release-conversion-rules:
     description: "Правила конвертации для версии $CI_COMMIT_TAG"
     assets:
       links:
-        - name: "rules-$CI_COMMIT_TAG.tar.gz"
-          url: "$CI_PROJECT_URL/-/jobs/$CI_JOB_ID/artifacts/file/rules-$CI_COMMIT_TAG.tar.gz"
+        - name: "$ASSET_NAME"
+          url: "$CI_PROJECT_URL/-/jobs/$BUILD_JOB_ID/artifacts/file/$ASSET_NAME"
+          
 
   

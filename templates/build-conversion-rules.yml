@@ -22,9 +22,15 @@ build-conversion-rules:
     entrypoint: [""]
   script:
     - gitrules assembly $[[ inputs.input_dir ]] $[[ inputs.output_dir ]]
+    - ASSET_NAME="rules-$CI_COMMIT_TAG.tar.gz"
+    - tar -czf "$ASSET_NAME" "$[[ inputs.asset_dir ]]"
+    - echo "BUILD_JOB_ID=$CI_JOB_ID" >> build.
+    - echo "ASSET_NAME=$ASSET_NAME" >> build.env
   artifacts:
     paths:
-      - $[[ inputs.output_dir ]]
+      - $ASSET_NAME
     expire_in: 1 week
     when: on_success
+    reports:
+      dotenv: build.env
   
