@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/gitlab/license/onec-components/onec-gitrules)
 ![GitLab Last Commit](https://img.shields.io/gitlab/last-commit/onec-components/onec-gitrules)
 [![GitLab Release](https://img.shields.io/gitlab/v/release/onec-components/onec-gitrules)](https://gitlab.com/explore/catalog/onec-components/onec-gitrules)
-[![Telegram](https://telegram-badge.vercel.app/api/telegram-badge?channelId=@pravets_IT)](https://t.me/pravets_it)
+[![Telegram](https://telegram-badge.vercel.app/api/telegram-badge?channelId=@pravets_IT)](https://t.me/+GKGRmAwghxllYzIy)
 
 Компонент Gitlab CI/CD для сборки правил конвертации 1С с помощью утилиты [gitrules](https://github.com/otymko/gitrules). Для сборки используется [Docker-образ gitrules](https://hub.docker.com/r/sleemp/gitrules) из проекта [oscript-images](https://github.com/pravets/oscript-images)
 
